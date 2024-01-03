@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:">
+<title>令和6年能登半島地震 気象庁 潮位データ 2024/1/1-2</title>
+</head><body>
+<h1>令和6年能登半島地震 気象庁 潮位データ 2024/1/1-2</h1>
+<script type="module" src="https://js.sabae.cc/csv-map.js"></script>
+<csv-map src="https://code4fukui.github.io/tidelevel/stations.csv" id=map></csv-map>
+
+<div class=chart id=divchart></div>
+<button id=btnreset>reset</button>
+
+<hr>
+<div class=credit>
+  DATA: <a href=https://www.jma.go.jp/bosai/tidelevel/>気象庁｜潮位観測情報</a> → <a href=https://github.com/code4fukui/tidelevel/>tidelevel</a>, <a href=https://www.data.jma.go.jp/multi/quake/index.html?lang=jp>気象庁 | 地震情報</a><br>
+  APP: <a href=https://github.com/code4fukui/eqnoto2024/>src on GitHub</a><br>
+</diV>
+
+<script type="module">
+import { getTideData } from "https://code4fukui.github.io/tidelevel/getTideData.js";
+import { showLineChart } from "./showLineChart.js";
+
+const days = ["20240101", "20240102"];
+
+const defst = {
+  code: "145651",
+  pref: "石川県",
+  name: "七尾",
+};
+const series = [await getTideData(defst, days)];
+
+const chart = showLineChart(divchart, series, 500);
+
+map.addEventListener("iconclick", async (e) => {
+  const d = e.detail;
+  const idx = series.findIndex(i => i.code == d.code);
+  if (idx >= 0) {
+    series.splice(idx, 1);
+  } else {
+    series.push(await getTideData(d, days));
+  }
+  chart.updateSeries(series);
+});
+btnreset.onclick = () => {
+  series.length = 0;
+  chart.updateSeries(series);
+};
+</script>
+
+<style>
+body {
+  background-color: #222255;
+  font-family: sans-serif;
+  color: white;
+}
+h1 {
+  color: white;
+}
+#map > div {
+  color: black;
+  height: 40vh !important;
+}
+.chart {
+  background-color: #f8f8f8;
+  color: #222;
+  margin-bottom: .6em;
+}
+.credit a {
+  color: white !important;
+}
+</style>
+
+</body></html>
