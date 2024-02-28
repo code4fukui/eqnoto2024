@@ -20,12 +20,22 @@ import { showLineChart } from "./showLineChart.js";
 
 const days = ["20240101", "20240102"];
 
-const defst = {
-  code: "145651",
-  pref: "石川県",
-  name: "七尾",
+const defsts = [
+  {
+    code: "145651",
+    pref: "石川県",
+    name: "七尾",
+  },
+  {
+    code: "145631",
+    pref: "石川県",
+    name: "能登",
+  },
+];
+const series = [];
+for (const defst of defsts) {
+  series.push(await getTideData(defst, days));
 };
-const series = [await getTideData(defst, days)];
 
 const chart = showLineChart(divchart, series, 500);
 
