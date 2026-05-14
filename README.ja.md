@@ -4,7 +4,7 @@
 
 ## デモ
 
-**https://code4fukui.github.io/eqnoto2024/**
+**https://github.com/code4fukui/eqnoto2024
 
 ## スクリーンショット
 
